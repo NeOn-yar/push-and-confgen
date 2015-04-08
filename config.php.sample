@@ -1,10 +1,12 @@
 <?php
     class config {
         public $ffmpeg_path = '/opt/ffmpeg/bin/ffmpeg';
-        //public $push_app = 'avconv';
+        public $push_app = 'avconv';
+        
         public $camlist = '/tmp/camlist';
         public $api_url = 'http://content.yar-net.ru/cams/api/';
-        public $server = 'cam8.yar-net.ru';
+        public $report_url = 'http://yar-net.ru/inc/cam.report.php';
+        public $server = 'server_domain';
         public $stream_server = 'localhost';
         public $storage = '/var/hdd';
         public $count = null;
