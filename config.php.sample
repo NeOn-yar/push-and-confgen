@@ -6,7 +6,6 @@
         public $api_url = 'http://content.yar-net.ru/cams/api/';
         public $server = 'cam8.yar-net.ru';
         public $stream_server = 'localhost';
-        //public $stream_server = 'stream9.yar-net.ru';
         public $storage = '/var/hdd';
         public $count = null;
         public $interval = 5;
