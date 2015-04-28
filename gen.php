@@ -34,8 +34,18 @@ class gen extends config {
             $cams_to_conf .= 'stream '.$cam['rtmp_stream'].' {'.PHP_EOL.'   '.implode(PHP_EOL.'   ', $out).PHP_EOL.'}'.PHP_EOL;
         }
         
+        $cam_json = file_get_contents($this->api_url.'?action=get_ondemand&server='.$this->server);
+        $cams_list = json_decode($cam_json, true);
+        $ondemand_to_conf = '';
+        foreach($cams_list AS $cam) {
+            $out = null;
+            if($cam['record_days']>0) $out[] = 'dvr '.$this->storages.$cam['disk'].'/ '.$cam['record_days'].'d;';
+            $ondemand_to_conf .= 'ondemand '.$cam['rtmp_stream'].' {'.PHP_EOL.'   '.implode(PHP_EOL.'   ', $out).PHP_EOL.'}'.PHP_EOL;
+        }
+        
         $tpl = file_get_contents($this->config_tpl);
         $tpl = str_replace('%rtsp_streams%', $cams_to_conf, $tpl);
+        $tpl = str_replace('%ondemand_streams%', $ondemand_to_conf, $tpl);
         $tpl = str_replace('%flu_auth%', $this->flu_login.' '.$this->flu_pass, $tpl);
         
         file_put_contents($this->config, $tpl);
