@@ -17,6 +17,7 @@ class gen extends config {
         $cams_to_conf = '';
         foreach($cams_list AS $cam) {
             $out = null;
+            if($cam['rtsp']=='') continue;
             //где надо преобразовывать звук - меняем протокол
             if($cam['transcode_audio']==1) $cam['rtsp'] = str_replace('rtsp://', 'rtsp2://', $cam['rtsp']);
             else if($cam['disable_audio']==1) $out[] = 'tracks 1;';
