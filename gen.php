@@ -30,14 +30,15 @@ class gen extends config {
             if($cam['record_days']>0) $out[] = 'dvr '.$this->storages.$cam['disk'].'/ '.$cam['record_days'].'d;';
             
             $out[] = 'url '.$cam['rtsp'].';';
-            
+            $stream_name_arr[$cam['rtmp_stream']] = 1;
             $cams_to_conf .= 'stream '.$cam['rtmp_stream'].' {'.PHP_EOL.'   '.implode(PHP_EOL.'   ', $out).PHP_EOL.'}'.PHP_EOL;
         }
         
         $cam_json = file_get_contents($this->api_url.'?action=get_ondemand&server='.$this->server);
-        $cams_list = json_decode($cam_json, true);
+        $ondemand_list = json_decode($cam_json, true);
         $ondemand_to_conf = '';
-        foreach($cams_list AS $cam) {
+        foreach($ondemand_list AS $cam) {
+            if(array_key_exists($cam['rtmp_stream'], $stream_name_arr)) continue;
             $out = null;
             if($cam['record_days']>0) $out[] = 'dvr '.$this->storages.$cam['disk'].'/ '.$cam['record_days'].'d;';
             $ondemand_to_conf .= 'ondemand '.$cam['rtmp_stream'].' {'.PHP_EOL.'   '.implode(PHP_EOL.'   ', $out).PHP_EOL.'}'.PHP_EOL;
